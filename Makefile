@@ -1,6 +1,6 @@
-include default_config
--include custom_config
--include .env
+include default.Makefile
+-include custom.Makefile
+-include hidden.Makefile
 
 test:
-	echo $(standards)
+	echo $(dm-mb)
