@@ -1,2 +1,9 @@
-systems=abc.json abc.json abc.json
-standards=zt jt jp
+engines=rime plover
+
+char-standards=zt jt jp
+system-zt=system/abc.json
+system-jt=system/abc.json
+system-jp=system/yayakana.json
+
+scheme-dir=zg-scheme/xingyi
+main-mb=$(scheme-dir)/main.tsv
