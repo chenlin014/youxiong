@@ -15,19 +15,25 @@ jianma-%: build
 		$(jianma-gen) 0:0,0,0:$(jianma-methods) --char-freq $(char-freq-$(*)) | \
 		sed -E 's/\t(.)..$$/\t空\1/' > build/jianma-$*.tsv
 
-rime_all: $(foreach std,$(char-standards),rime-$(std))
-
-rime-%: build jianma-% daima
+dict-%: daima
 	cat build/daima.tsv | \
 		python mb-tool/apply_priority.py $(scheme-dir)/priority-table/$(dm-tag)-$*.tsv -u ',重,能,能重' | \
 		perl script/preprocess.pl | \
-		$(dict-gen) $(system-$(*)) $(chordmap) | \
-		mb-tool/format.sh rime > build/$(scheme-name)-$*.tsv
-	printf "\n# $(jm-name-$(*))\n" >> build/$(scheme-name)-$*.tsv
+		$(dict-gen) $(system-$(*)) $(chordmap) > build/$(dict-name)-$*.tsv
+
+jm-dict-%: jianma-%
 	cat build/jianma-$*.tsv | sed -E 's/$$/简/' | \
 		perl script/preprocess.pl | \
-		$(dict-gen) $(system-$(*)) $(chordmap) | \
-		mb-tool/format.sh rime >> build/$(scheme-name)-$*.tsv
+		$(dict-gen) $(system-$(*)) $(chordmap) > build/$(dict-name)-jm-$*.tsv
+
+rime_all: $(foreach std,$(char-standards),rime-$(std))
+
+rime-%: dict-% jm-dict-%
+	cat build/$(dict-name)-$*.tsv | \
+		mb-tool/format.sh rime > build/rime-$(dict-name)-$*.tsv
+	printf "\n# $(jm-name-$(*))\n" >> build/rime-$(dict-name)-$*.tsv
+	cat build/$(dict-name)-jm-$*.tsv | \
+		mb-tool/format.sh rime >> build/rime-$(dict-name)-$*.tsv
 
 clean:
 	rm build/*
