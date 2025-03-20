@@ -41,3 +41,8 @@ clean:
 check_priority:
 	$(eval cs ?= zt)
 	python mb-tool/check_priority.py $(scheme-dir)/priority-table/$(dm-tag)-$(cs).tsv build/daima.tsv
+
+no_jianma:
+	$(eval cs ?= zt)
+	python mb-tool/subset.py $(scheme-dir)/common-$(cs).tsv build/jianma-$(cs).tsv -d | \
+		awk -F'\t' '$$2 !~ /.{3,}/ {next}1'
