@@ -37,3 +37,7 @@ rime-%: dict-% jm-dict-%
 
 clean:
 	rm build/*
+
+check_priority:
+	$(eval cs ?= zt)
+	python mb-tool/check_priority.py $(scheme-dir)/priority-table/$(dm-tag)-$(cs).tsv build/daima.tsv
