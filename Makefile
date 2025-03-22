@@ -1,6 +1,5 @@
 include default.mk
 -include custom.mk
--include hidden.mk
 
 all: $(foreach engine,$(input-engines),$(engine)_all)
 
