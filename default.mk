@@ -13,10 +13,7 @@ zg-scheme=xingyi
 scheme-dir=zg-scheme/$(zg-scheme)
 main-mb=$(scheme-dir)/main.tsv
 # 并击方案
-cm-name=zaolin
-chordmap=$(scheme-dir)/chordmap/$(cm-name).tsv
-# 字典名
-dict-name=$(zg-scheme)-$(cm-name)
+chordmap=$(scheme-dir)/chordmap/zaolin.tsv
 
 # 代码
 dm-tag=abyz
