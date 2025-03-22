@@ -9,14 +9,14 @@ system-jt=system/abc.json
 system-jp=system/yayakana.json
 
 # 字根方案
-scheme-name=xingyi
-scheme-dir=zg-scheme/$(scheme-name)
+zg-scheme=xingyi
+scheme-dir=zg-scheme/$(zg-scheme)
 main-mb=$(scheme-dir)/main.tsv
 # 并击方案
 cm-name=zaolin
 chordmap=$(scheme-dir)/chordmap/$(cm-name).tsv
 # 字典名
-dict-name=$(scheme-name)-$(cm-name)
+dict-name=$(zg-scheme)-$(cm-name)
 
 # 代码
 dm-tag=abyz
