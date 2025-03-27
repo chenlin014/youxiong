@@ -6,7 +6,7 @@ char-standards=zt jt jp
 # 并击系统
 system-zt=system/abc.json
 system-jt=system/abc.json
-system-jp=system/yayakana.json
+system-jp=system/abc.json
 
 # 字根方案
 zg-scheme=xingyi
