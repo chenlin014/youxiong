@@ -58,6 +58,7 @@ code-freq-%: daima jianma-% stat/code_freq/$(zg-scheme)
 	awk -F'\t' 'length($$2) > 2 {next} 1' $(scheme-dir)/common-$*.tsv > build/tmp
 	cat build/jianma-$*.tsv >> build/tmp
 	python mb-tool/code_freq.py build/tmp --freq-table $(char-freq-$(*)) > stat/code_freq/$(zg-scheme)/jm-$*
+	rm build/tmp
 
 stat/code_freq/%:
 	mkdir $@
