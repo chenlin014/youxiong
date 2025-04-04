@@ -1,6 +1,11 @@
 # 有熊
 「有熊」是一个单字并击输入法框架。
 
+可改
+- 解字方案
+- 按式映射
+- 简码生成法
+
 ## 生成字典
 [Make](https://www.gnu.org/software/make/manual/make.html)可用来生成字典、生成的文件会被放入build/。
 
