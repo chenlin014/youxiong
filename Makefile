@@ -41,6 +41,10 @@ check_priority:
 	$(eval cs ?= zt)
 	python mb-tool/check_priority.py $(scheme-dir)/priority-table/$(dm-tag)-$(cs).tsv build/daima.tsv
 
+check_chordmap: code_freq
+	python mb-tool/find_duplicate.py $(chordmap)
+	python mb-tool/subset.py -d stat/code_freq/$(zg-scheme)/$(word 1,$(char-standards)) $(chordmap)
+
 no_jianma:
 	$(eval cs ?= zt)
 	python mb-tool/subset.py $(scheme-dir)/common-$(cs).tsv build/jianma-$(cs).tsv -d | \
