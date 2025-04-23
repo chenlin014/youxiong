@@ -43,7 +43,7 @@ check_priority:
 
 check_chordmap: code_freq
 	python mb-tool/find_duplicate.py $(chordmap)
-	python mb-tool/subset.py -d stat/code_freq/$(zg-scheme)/$(word 1,$(char-standards)) $(chordmap)
+	python mb-tool/subset.py -d stat/code_freq/$(jz-scheme)/$(word 1,$(char-standards)) $(chordmap)
 
 no_jianma:
 	$(eval cs ?= zt)
@@ -52,16 +52,16 @@ no_jianma:
 
 code_freq: $(foreach std,$(char-standards),code-freq-$(std))
 
-code-freq-%: daima jianma-% stat/code_freq/$(zg-scheme)
+code-freq-%: daima jianma-% stat/code_freq/$(jz-scheme)
 	# 全码
-	python mb-tool/code_freq.py $(scheme-dir)/common-$*.tsv --freq-table $(char-freq-$(*)) > stat/code_freq/$(zg-scheme)/$*
+	python mb-tool/code_freq.py $(scheme-dir)/common-$*.tsv --freq-table $(char-freq-$(*)) > stat/code_freq/$(jz-scheme)/$*
 	# 代码
 	$(dm-maker) $(scheme-dir)/common-$*.tsv | \
-		python mb-tool/code_freq.py --freq-table $(char-freq-$(*)) > stat/code_freq/$(zg-scheme)/$(dm-tag)-$*
+		python mb-tool/code_freq.py --freq-table $(char-freq-$(*)) > stat/code_freq/$(jz-scheme)/$(dm-tag)-$*
 	# 简码
 	awk -F'\t' 'length($$2) > 2 {next} 1' $(scheme-dir)/common-$*.tsv > build/tmp
 	cat build/jianma-$*.tsv >> build/tmp
-	python mb-tool/code_freq.py build/tmp --freq-table $(char-freq-$(*)) > stat/code_freq/$(zg-scheme)/jm-$*
+	python mb-tool/code_freq.py build/tmp --freq-table $(char-freq-$(*)) > stat/code_freq/$(jz-scheme)/jm-$*
 	rm build/tmp
 
 stat/code_freq/%:

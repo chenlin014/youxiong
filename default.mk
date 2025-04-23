@@ -9,8 +9,8 @@ system-jt=system/abc.json
 system-jp=system/abc.json
 
 # 字根方案
-zg-scheme=xingyi
-scheme-dir=zg-scheme/$(zg-scheme)
+jz-scheme=xingyi
+scheme-dir=jz-scheme/$(jz-scheme)
 main-mb=$(scheme-dir)/main.tsv
 # 并击方案
 chordmap=$(scheme-dir)/chordmap/zaolin.tsv
