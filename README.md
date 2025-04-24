@@ -25,6 +25,16 @@
 ## 并击
 
 ### 并击系统
+放于`system/`、json格式。
+
+```yaml
+"+2": "12345~`67890" # 上上排、一般键盘的数字键一排。
+"+1": "abcdefFEDCBA" # 上排、一般键盘的QWERTY一排。
+"0":  "ghijklLKJIHG" # 中排、一般键盘的ASDFGH一排、双排速录机的下排。
+"-1": "mnopqrRQPONM" # 下排、一般键盘的ZXCVBN一排。
+"thumb_keys": "stuUTS" # 拇指键
+"key_order":  "1agm2bhn3cio4djp5ekq~flrstu0AGM9BHN8CIO7DJP6EKQ`FLRSTUvwxyzVWXYZ" # 键序
+```
 
 ### 并击表
 
