@@ -1,7 +1,7 @@
 # 有熊打字法
 「有熊」结合了速录的并击法和形码的编码法。
 
-先将要用的字分解成字根、再为每个字根配个并击指法。左右手各打一个字根、一击能打两个字根。
+先将要用的字分解成字根、再为每个字根配个并击手势。左右手各打一个字根、一击能打两个字根。
 
 两个字根以内的字一击便能打出、故称单击字。多于两个字根的字需多击完成、故称多击字。简码能把多击字变成单击字。
 
@@ -28,12 +28,12 @@
 放于`system/`、json格式。
 
 ```yaml
-"+2": "12345~`67890" # 上上排、一般键盘的数字键一排。
-"+1": "abcdefFEDCBA" # 上排、一般键盘的QWERTY一排。
-"0":  "ghijklLKJIHG" # 中排、一般键盘的ASDFGH一排、双排速录机的下排。
-"-1": "mnopqrRQPONM" # 下排、一般键盘的ZXCVBN一排。
-"thumb_keys": "stuUTS" # 拇指键
-"key_order":  "1agm2bhn3cio4djp5ekq~flrstu0AGM9BHN8CIO7DJP6EKQ`FLRSTUvwxyzVWXYZ" # 键序
+"+2": "123890" # 上上排、一般键盘的数字键一排。
+"+1": "abcCBA" # 上排、一般键盘的QWERTY一排。
+"0":  "ghiIHG" # 中排、一般键盘的ASDFGH一排、双排速录机的下排。
+"-1": "mnoONM" # 下排、一般键盘的ZXCVBN一排。
+"thumb_keys": "stTS" # 拇指键
+"key_order":  "1agm2bhn3cio0AGM9BHN8CIOstST" # 键序
 ```
 
 ### 并击表
