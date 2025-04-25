@@ -25,7 +25,7 @@
 ## 并击
 
 ### 并击系统
-放于`system/`、json格式。
+存于：`system/*.json`
 
 ```yaml
 "+2": "123890" # 上上排、一般键盘的数字键一排。
@@ -37,10 +37,11 @@
 ```
 
 ### 并击表
+存于：`jz-scheme/(解字方案)/chordmap/*.tsv`
 
 ## 简码
 
-## 字频来源
+## 可用字频
 - 正體：
     - [教育部語文成果網](https://language.moe.gov.tw/)
     - [字頻總表](https://language.moe.gov.tw/001/Upload/files/SITE_CONTENT/M0001/PIN/biau1.htm?open)
