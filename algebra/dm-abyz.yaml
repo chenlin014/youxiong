@@ -1,0 +1,2 @@
+- pattern: ^(..).+(..)$
+  replacement: \1\2

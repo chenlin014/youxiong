@@ -6,21 +6,27 @@ all: $(foreach engine,$(input-engines),$(engine)_all)
 build:
 	mkdir $@
 
-daima: build
-	$(dm-maker) $(main-mb) > build/daima.tsv
+daima-%: build
+	$(eval table-$* ?= $(scheme-dir)/$(jz-scheme)-$(*).tsv)
+	$(dm-maker) $(table-$(*)) > build/daima-$*.tsv
 
 jianma-%: build
-	awk -F'\t' '$$2 ~ /.{3,}/ {print $$1"\t"$$2}' $(scheme-dir)/common-$*.tsv | \
+	$(eval table-$* ?= $(scheme-dir)/$(jz-scheme)-$(*).tsv)
+	$(eval common-$* ?= char_set/common-$(*))
+	awk -F'\t' '$$2 ~ /.{3,}/ {print $$1"\t"$$2}' $(table-$(*)) | \
+		python mb-tool/subset.py $(table-$(*)) $(common-$(*)) | \
 		$(jianma-gen) 0:0,0,0:$(jianma-methods) --freq-table $(char-freq-$(*)) | \
 		sed -E 's/\t(.)..$$/\t空\1/' > build/jianma-$*.tsv
 
-dict-%: daima
-	cat build/daima.tsv | \
+dict-%: daima-%
+	$(eval system-$* ?= $(system))
+	cat build/daima-$*.tsv | \
 		python mb-tool/apply_priority.py $(scheme-dir)/priority-table/$(dm-tag)-$*.tsv -u ',重,能,能重' | \
 		perl script/preprocess.pl | \
 		$(dict-gen) $(system-$(*)) $(chordmap) > build/dict-$*.tsv
 
 jm-dict-%: jianma-%
+	$(eval system-$* ?= $(system))
 	cat build/jianma-$*.tsv | sed -E 's/$$/简/' | \
 		perl script/preprocess.pl | \
 		$(dict-gen) $(system-$(*)) $(chordmap) > build/jm-dict-$*.tsv
@@ -52,14 +58,14 @@ no_jianma:
 
 code_freq: $(foreach std,$(char-standards),code-freq-$(std))
 
-code-freq-%: daima jianma-% stat/code_freq/$(jz-scheme)
+code-freq-%: daima-% jianma-% stat/code_freq/$(jz-scheme)
 	# 全码
-	python mb-tool/code_freq.py $(scheme-dir)/common-$*.tsv --freq-table $(char-freq-$(*)) > stat/code_freq/$(jz-scheme)/$*
+	python mb-tool/code_freq.py $(table-$(*)) --freq-table $(char-freq-$(*)) > stat/code_freq/$(jz-scheme)/$*
 	# 代码
-	$(dm-maker) $(scheme-dir)/common-$*.tsv | \
+	$(dm-maker) $(table-$(*)) | \
 		python mb-tool/code_freq.py --freq-table $(char-freq-$(*)) > stat/code_freq/$(jz-scheme)/$(dm-tag)-$*
 	# 简码
-	awk -F'\t' 'length($$2) > 2 {next} 1' $(scheme-dir)/common-$*.tsv > build/tmp
+	awk -F'\t' 'length($$2) > 2 {next} 1' $(table-$(*)) > build/tmp
 	cat build/jianma-$*.tsv >> build/tmp
 	python mb-tool/code_freq.py build/tmp --freq-table $(char-freq-$(*)) > stat/code_freq/$(jz-scheme)/jm-$*
 	rm build/tmp

@@ -2,22 +2,20 @@
 input-engines?=rime
 
 # 字体标准
-char-standards?=zt jt jp
+char-standards?=ft jt jp
 # 并击系统
-system-zt?=system/abc.json
-system-jt?=system/abc.json
-system-jp?=system/abc.json
+system?=system/abc.json
 
 # 解字方案
 jz-scheme?=xingyi
 scheme-dir?=jz-scheme/$(jz-scheme)
-main-mb?=$(scheme-dir)/main.tsv
+table?=$(scheme-dir)/$(jz-scheme).tsv
 # 并击方案
 chordmap?=$(scheme-dir)/chordmap/zaolin.tsv
 
 # 代码
 dm-tag?=abyz
-dm-maker?=python mb-tool/mb_algebra.py --regex $(scheme-dir)/dm-$(dm-tag).yaml
+dm-maker?=python mb-tool/mb_algebra.py --regex algebra/dm-$(dm-tag).yaml
 
 # 生成字典
 dict-gen?=python mb-tool/steno_dict.py
@@ -33,6 +31,6 @@ ba?=1,0
 zy?=-1,-2
 jianma-methods?=$(az):$(ab):$(yz):$(za):$(ba):$(zy)
 # 简码名称
-jm-name-zt?=簡碼
+jm-name-ft?=簡碼
 jm-name-jt?=简码
 jm-name-jp?=略コード
