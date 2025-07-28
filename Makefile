@@ -21,7 +21,7 @@ jianma-%: build
 dict-%: daima-%
 	$(eval system-$* ?= $(system))
 	cat build/daima-$*.tsv | \
-		python mb-tool/apply_priority.py $(scheme-dir)/priority-table/$(dm-tag)-$*.tsv -u ',重,能,能重' | \
+		python mb-tool/apply_priority.py -c $(scheme-dir)/priority-table/$(dm-tag)-$*.csv -u ',重,能,能重' | \
 		perl script/preprocess.pl | \
 		$(dict-gen) $(system-$(*)) $(chordmap) > build/dict-$*.tsv
 
@@ -45,7 +45,7 @@ clean:
 
 check_priority:
 	$(eval cs ?= ft)
-	python mb-tool/check_priority.py $(scheme-dir)/priority-table/$(dm-tag)-$(cs).tsv build/daima-$(cs).tsv
+	python mb-tool/check_priority.py --char-only $(scheme-dir)/priority-table/$(dm-tag)-$(cs).csv build/daima-$(cs).tsv
 
 check_chordmap: code_freq
 	python mb-tool/find_duplicate.py $(chordmap)
