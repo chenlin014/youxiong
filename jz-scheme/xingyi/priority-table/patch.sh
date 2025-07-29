@@ -1,8 +1,8 @@
 #!/bin/sh
 
-patcher="python ../../../mb-tool/combine_dict.py"
+patcher="python ../../../mb-tool/priority_patch.py"
 
 cd $(dirname "$0")
 
-$patcher abyz-zt.tsv abyz-jp-patch.tsv > abyz-jp.tsv
-$patcher abyz-zt.tsv abyz-vi-patch.tsv > abyz-vi.tsv
+$patcher abyz-ft.csv abyz-jp-patch.csv > abyz-jp.csv
+$patcher abyz-ft.csv abyz-vi-patch.csv > abyz-vi.csv
