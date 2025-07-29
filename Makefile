@@ -21,20 +21,21 @@ jianma-%: build
 dict-%: daima-%
 	$(eval system-$* ?= $(system))
 	cat build/daima-$*.tsv | \
-		python mb-tool/apply_priority.py -c $(scheme-dir)/priority-table/$(dm-tag)-$*.csv -u ',重,能,能重' | \
-		perl script/preprocess.pl | \
+		sed 's/./& /g; s/ $$//; s/ \t /\t/' | \
 		$(dict-gen) $(system-$(*)) $(chordmap) > build/dict-$*.tsv
 
 jm-dict-%: jianma-%
 	$(eval system-$* ?= $(system))
 	cat build/jianma-$*.tsv | sed -E 's/$$/简/' | \
-		perl script/preprocess.pl | \
+		sed 's/./& /g; s/ $$//; s/ \t /\t/' | \
 		$(dict-gen) $(system-$(*)) $(chordmap) > build/jm-dict-$*.tsv
 
 rime_all: $(foreach std,$(char-standards),rime-$(std))
 
 rime-%: dict-% jm-dict-%
 	cat build/dict-$*.tsv | \
+		python mb-tool/apply_priority.py -c $(scheme-dir)/priority-table/$(dm-tag)-$*.csv -u '9,8,7,6,5,4,3,2,1' | \
+		sed -E 's/([[:digit:]])$$/\t\1/' | \
 		mb-tool/format.sh rime > build/rime-$*.tsv
 	printf "\n# $(jm-name-$(*))\n" >> build/rime-$*.tsv
 	cat build/jm-dict-$*.tsv | \
