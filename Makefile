@@ -1,4 +1,8 @@
+ifeq ($(config),)
 -include custom.mk
+else
+-include $(config)
+endif
 include default.mk
 
 all: $(foreach engine,$(input-engines),$(engine)_all)
