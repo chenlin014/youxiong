@@ -11,7 +11,8 @@ jz-scheme?=xingyi
 scheme-dir?=jz-scheme/$(jz-scheme)
 table?=$(scheme-dir)/$(jz-scheme).tsv
 # 并击方案
-chordmap?=$(scheme-dir)/chordmap/zaolin.tsv
+chordmap?=zaolin
+chordmap-file?=$(scheme-dir)/chordmap/$(chordmap).tsv
 
 # 代码
 dm-tag?=abyz
@@ -34,3 +35,4 @@ jianma-methods?=$(az):$(ab):$(yz):$(za):$(ba):$(zy)
 jm-name-ft?=簡碼
 jm-name-jt?=简码
 jm-name-jp?=略コード
+jm-name?=$(jm-name-ft)
