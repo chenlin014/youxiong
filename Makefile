@@ -78,18 +78,23 @@ no_jianma:
 	python mb-tool/subset.py $(scheme-dir)/common-$(cs).tsv build/jianma-$(cs).tsv -d | \
 		awk -F'\t' '$$2 !~ /.{3,}/ {next}1'
 
+ifeq ($(char-standards),)
+code_freq: code-freq-.
+else
 code_freq: $(foreach std,$(char-standards),code-freq-$(std))
+endif
 
 code-freq-%: daima-% jianma-% stat/code_freq/$(jz-scheme)
+	$(eval ver = $(subst -.,,-$(*)))
 	# 全码
-	python mb-tool/code_freq.py $(table-$(*)) --freq-table $(char-freq-$(*)) > stat/code_freq/$(jz-scheme)/$*
+	python mb-tool/code_freq.py $(table$(ver)) --freq-table $(char-freq$(ver)) > stat/code_freq/$(jz-scheme)/full$(ver)
 	# 代码
-	$(dm-maker) $(table-$(*)) | \
-		python mb-tool/code_freq.py --freq-table $(char-freq-$(*)) > stat/code_freq/$(jz-scheme)/$(dm-tag)-$*
+	$(dm-maker) $(table$(ver)) | \
+		python mb-tool/code_freq.py --freq-table $(char-freq$(ver)) > stat/code_freq/$(jz-scheme)/$(dm-tag)$(ver)
 	# 简码
-	awk -F'\t' 'length($$2) > 2 {next} 1' $(table-$(*)) > build/tmp
-	cat build/jianma-$*.tsv >> build/tmp
-	python mb-tool/code_freq.py build/tmp --freq-table $(char-freq-$(*)) > stat/code_freq/$(jz-scheme)/jm-$*
+	awk -F'\t' 'length($$2) > 2 {next} 1' $(table$(ver)) > build/tmp
+	cat build/jianma$(ver).tsv >> build/tmp
+	python mb-tool/code_freq.py build/tmp --freq-table $(char-freq$(ver)) > stat/code_freq/$(jz-scheme)/jm$(ver)
 	rm build/tmp
 
 test-%:
