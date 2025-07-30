@@ -65,18 +65,31 @@ rime-%: dict-% jm-dict-%
 clean:
 	rm build/*
 
-check_priority:
-	$(eval cs ?= ft)
-	python mb-tool/check_priority.py --char-only $(scheme-dir)/priority-table/$(dm-tag)-$(cs).csv build/daima-$(cs).tsv
+check-priority: check-priority-.
 
-check_chordmap: code_freq
-	python mb-tool/find_duplicate.py $(chordmap)
-	python mb-tool/subset.py -d stat/code_freq/$(jz-scheme)/$(word 1,$(char-standards)) $(chordmap)
+check-priority-%:
+	$(eval ver = $(subst -.,,-$(*)))
+	python mb-tool/check_priority.py --char-only $(scheme-dir)/priority-table/$(dm-tag)$(ver).csv build/daima$(ver).tsv
 
-no_jianma:
-	$(eval cs ?= ft)
-	python mb-tool/subset.py $(scheme-dir)/common-$(cs).tsv build/jianma-$(cs).tsv -d | \
-		awk -F'\t' '$$2 !~ /.{3,}/ {next}1'
+check-chordmap:
+	python mb-tool/find_duplicate.py $(chordmap-file)
+ifeq ($(char-standards),)
+	python mb-tool/code_freq.py $(table) | \
+		python mb-tool/subset.py --sym-diff $(chordmap-file)
+else
+	$(eval cs ?= $(word 1,$(char-standards)))
+	$(eval table-$(cs) ?= $(scheme-dir)/$(jz-scheme)-$(cs).tsv)
+	python mb-tool/code_freq.py $(table-$(cs)) | \
+		python mb-tool/subset.py --sym-diff $(chordmap-file)
+endif
+
+no-jianma: no-jianma-.
+
+no-jianma-%: jianma-%
+	$(eval ver = $(subst -.,,-$(*)))
+	python mb-tool/subset.py $(table$(ver)) $(common$(ver)) | \
+		awk -F'\t' '$$2 !~ /.{3,}/ {next}1' | \
+		python mb-tool/subset.py build/jianma$(ver).tsv --diff --second-table
 
 ifeq ($(char-standards),)
 code_freq: code-freq-.
@@ -96,10 +109,6 @@ code-freq-%: daima-% jianma-% stat/code_freq/$(jz-scheme)
 	cat build/jianma$(ver).tsv >> build/tmp
 	python mb-tool/code_freq.py build/tmp --freq-table $(char-freq$(ver)) > stat/code_freq/$(jz-scheme)/jm$(ver)
 	rm build/tmp
-
-test-%:
-	$(eval ver = $(subst -.,,-$(*)))
-	echo table$(ver)
 
 stat/code_freq/%:
 	mkdir $@
