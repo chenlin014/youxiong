@@ -15,7 +15,9 @@ daima: daima-.
 daima-%: build
 	$(eval ver = $(subst -.,,-$(*)))
 	$(eval table$(ver) ?= $(scheme-dir)/$(jz-scheme)$(ver).tsv)
-	$(dm-maker) $(table$(ver)) > build/daima$(ver).tsv
+	$(dm-maker) $(table$(ver)) | \
+		python mb-tool/apply_priority.py -c $(scheme-dir)/priority-table/$(dm-tag)$(ver).csv -u '9,8,7,6,5,4,3,2,1' | \
+		sed -E 's/\t(.)\t8$$/\t空\1\t8/' > build/daima$(ver).tsv
 
 jianma: jianma-.
 
@@ -55,8 +57,6 @@ endif
 rime-%: dict-% jm-dict-%
 	$(eval ver = $(subst -.,,-$(*)))
 	cat build/dict$(ver).tsv | \
-		python mb-tool/apply_priority.py -c $(scheme-dir)/priority-table/$(dm-tag)$(ver).csv -u '9,8,7,6,5,4,3,2,1' | \
-		sed -E 's/([[:digit:]])$$/\t\1/' | \
 		mb-tool/format.sh rime > build/rime$(ver).tsv
 	printf "\n# $(jm-name$(ver))\n" >> build/rime$(ver).tsv
 	cat build/jm-dict$(ver).tsv | \
