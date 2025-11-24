@@ -1,4 +1,6 @@
-- pattern: "([⾂])"
-  replacement: "\\1空"
+- pattern: ⾂
+  replacement: ⾂空
+- pattern: ⾂空(.).+(.)
+  replacement: ⾂空\1\2
 - pattern: ^(..).+(..)$
   replacement: \1\2
