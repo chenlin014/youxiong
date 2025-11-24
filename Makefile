@@ -44,8 +44,9 @@ jm-dict: jm-dict-.
 jm-dict-%: jianma-%
 	$(eval ver = $(subst -.,,-$(*)))
 	$(eval system$(ver) ?= $(system))
-	cat build/jianma$(ver).tsv | sed -E 's/$$/简/' | \
+	cat build/jianma$(ver).tsv | \
 		sed 's/./& /g; s/ $$//; s/ \t /\t/' | \
+		sed -E 's/$$/简/' | \
 		$(dict-gen) $(system$(ver)) $(chordmap-file) > build/jm-dict$(ver).tsv
 
 ifeq ($(char-standards),)
@@ -57,10 +58,10 @@ endif
 rime-%: dict-% jm-dict-%
 	$(eval ver = $(subst -.,,-$(*)))
 	cat build/dict$(ver).tsv | \
-		mb-tool/format.sh rime > build/rime$(ver).tsv
+		script/format.sh rime > build/rime$(ver).tsv
 	printf "\n# $(jm-name$(ver))\n" >> build/rime$(ver).tsv
 	cat build/jm-dict$(ver).tsv | \
-		mb-tool/format.sh rime >> build/rime$(ver).tsv
+		script/format.sh rime >> build/rime$(ver).tsv
 
 clean:
 	rm build/*
