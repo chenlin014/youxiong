@@ -36,7 +36,7 @@ dict-%: daima-%
 	cat build/daima$(ver).tsv | \
 		sed 's/./& /g; s/ $$//; s/ \t /\t/' | \
 		python mb-tool/apply_priority.py -c $(scheme-dir)/priority-table/$(dm-tag)$(ver).csv -u '9,8,7,6,5,4,3,2,1' | \
-		sed -E 's/\t(.)\t8$$/\t空\1\t8/' | \
+		sed -E 's/\t(.)\t8$$/\t空 \1\t8/' | \
 		$(dict-gen) $(system$(ver)) $(chordmap-file) > build/dict$(ver).tsv
 
 jm-dict: jm-dict-.
