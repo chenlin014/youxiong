@@ -1,12 +1,16 @@
-ifeq ($(config),)
+# = 載入設置文件 =
+# -include: 有的話就載入、沒有就算了
+ifeq ($(config),) # 如果沒有指定設置文件
 -include custom.mk
 else
 -include $(config)
 endif
+# 默認設置、不更改先前載入的設置
 include default.mk
 
 all: $(foreach engine,$(input-engines),$(engine)_all)
 
+# 創建build目錄
 build:
 	mkdir $@
 
