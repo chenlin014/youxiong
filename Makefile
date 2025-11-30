@@ -62,10 +62,10 @@ endif
 rime-%: dict-% jm-dict-%
 	$(eval ver = $(subst -.,,-$(*)))
 	cat build/dict$(ver).tsv | \
-		script/format.sh rime > build/rime$(ver).tsv
+		mb-tool/steno_format.sh rime > build/rime$(ver).tsv
 	printf "\n# $(jm-name$(ver))\n" >> build/rime$(ver).tsv
 	cat build/jm-dict$(ver).tsv | \
-		script/format.sh rime >> build/rime$(ver).tsv
+		mb-tool/steno_format.sh rime >> build/rime$(ver).tsv
 
 clean:
 	rm build/*
