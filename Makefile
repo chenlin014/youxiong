@@ -78,6 +78,7 @@ check-priority-%:
 
 check-chordmap:
 	python mb-tool/find_duplicate.py $(chordmap-file)
+	python mb-tool/find_duplicate.py --reverse $(chordmap-file)
 ifeq ($(char-standards),)
 	python mb-tool/code_freq.py $(table) | \
 		python mb-tool/subset.py --sym-diff $(chordmap-file)
