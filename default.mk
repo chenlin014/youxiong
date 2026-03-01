@@ -6,7 +6,7 @@ char-standards?=ft jt jp
 # 并击系统
 system?=system/abc.json
 
-# 解字方案
+# 字根方案
 zg-scheme?=xingyi
 scheme-dir?=zg-scheme/$(zg-scheme)
 table?=$(scheme-dir)/$(zg-scheme).tsv
