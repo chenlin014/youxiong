@@ -7,9 +7,9 @@ char-standards?=ft jt jp
 system?=system/abc.json
 
 # 解字方案
-jz-scheme?=xingyi
-scheme-dir?=jz-scheme/$(jz-scheme)
-table?=$(scheme-dir)/$(jz-scheme).tsv
+zg-scheme?=xingyi
+scheme-dir?=zg-scheme/$(zg-scheme)
+table?=$(scheme-dir)/$(zg-scheme).tsv
 # 并击方案
 chordmap?=zaolin
 chordmap-file?=$(scheme-dir)/chordmap/$(chordmap).tsv

@@ -18,14 +18,14 @@ daima: daima-.
 
 daima-%: build
 	$(eval ver = $(subst -.,,-$(*)))
-	$(eval table$(ver) ?= $(scheme-dir)/$(jz-scheme)$(ver).tsv)
+	$(eval table$(ver) ?= $(scheme-dir)/$(zg-scheme)$(ver).tsv)
 	$(dm-maker) $(table$(ver)) > build/daima$(ver).tsv
 
 jianma: jianma-.
 
 jianma-%: build
 	$(eval ver = $(subst -.,,-$(*)))
-	$(eval table$(ver) ?= $(scheme-dir)/$(jz-scheme)$(ver).tsv)
+	$(eval table$(ver) ?= $(scheme-dir)/$(zg-scheme)$(ver).tsv)
 	$(eval common$(ver) ?= char_set/common$(ver))
 	awk -F'\t' '$$2 ~ /.{3,}/ {print $$1"\t"$$2}' $(table$(ver)) | \
 		python mb-tool/subset.py --second-table $(common$(ver)) | \
@@ -84,7 +84,7 @@ ifeq ($(char-standards),)
 		python mb-tool/subset.py --sym-diff $(chordmap-file)
 else
 	$(eval cs ?= $(word 1,$(char-standards)))
-	$(eval table-$(cs) ?= $(scheme-dir)/$(jz-scheme)-$(cs).tsv)
+	$(eval table-$(cs) ?= $(scheme-dir)/$(zg-scheme)-$(cs).tsv)
 	python mb-tool/code_freq.py $(table-$(cs)) | \
 		python mb-tool/subset.py --sym-diff $(chordmap-file)
 endif
@@ -103,17 +103,17 @@ else
 code_freq: $(foreach std,$(char-standards),code-freq-$(std))
 endif
 
-code-freq-%: daima-% jianma-% stat/code_freq/$(jz-scheme)
+code-freq-%: daima-% jianma-% stat/code_freq/$(zg-scheme)
 	$(eval ver = $(subst -.,,-$(*)))
 	# 全码
-	python mb-tool/code_freq.py $(table$(ver)) --freq-table $(char-freq$(ver)) > stat/code_freq/$(jz-scheme)/full$(ver)
+	python mb-tool/code_freq.py $(table$(ver)) --freq-table $(char-freq$(ver)) > stat/code_freq/$(zg-scheme)/full$(ver)
 	# 代码
 	$(dm-maker) $(table$(ver)) | \
-		python mb-tool/code_freq.py --freq-table $(char-freq$(ver)) > stat/code_freq/$(jz-scheme)/$(dm-tag)$(ver)
+		python mb-tool/code_freq.py --freq-table $(char-freq$(ver)) > stat/code_freq/$(zg-scheme)/$(dm-tag)$(ver)
 	# 简码
 	awk -F'\t' 'length($$2) > 2 {next} 1' $(table$(ver)) > build/tmp
 	cat build/jianma$(ver).tsv >> build/tmp
-	python mb-tool/code_freq.py build/tmp --freq-table $(char-freq$(ver)) > stat/code_freq/$(jz-scheme)/jm$(ver)
+	python mb-tool/code_freq.py build/tmp --freq-table $(char-freq$(ver)) > stat/code_freq/$(zg-scheme)/jm$(ver)
 	rm build/tmp
 
 stat/code_freq/%:
